@@ -112,7 +112,7 @@ void precioPromedio(){
   printf("El precio promedio es: $%.2f\n", promedio);
 }
 
-void buscar(){
+void buscar() {
   if (cont == 0) {
     printf("No hay productos ingresados\n");
     return;
@@ -124,11 +124,23 @@ void buscar(){
   printf("Nombre del producto para buscar:\n");
   fflush(stdin);
   fgets(buscar, 70, stdin);
-  int len = strlen(buscar) - 1;
-  buscar[len] = '\0';
+  int len = strlen(buscar);
+  if (buscar[len - 1] == '\n')
+    buscar[len - 1] = '\0';
 
   for (int i = 0; i < cont; i++) {
-    if (strcmp(buscar, productos[i]) == 0) {
+    int iguales = 1; 
+    int j = 0;
+
+    while (buscar[j] != '\0' || productos[i][j] != '\0') {
+      if (buscar[j] != productos[i][j]) {
+        iguales = 0;
+        break;
+      }
+      j++;
+    }
+
+    if (iguales) {
       printf("Producto encontrado\n");
       printf("\tNombre: %s\n - \tprecio $%.2f\n", productos[i], precioProducto[i]);
       enc = 1;
